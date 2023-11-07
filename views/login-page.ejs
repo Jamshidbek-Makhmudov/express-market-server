@@ -1,0 +1,44 @@
+<%- include('includes/header') %>
+<link rel="stylesheet" href="/css/login.css" />
+<body>
+  <form action="/resto/login" method="POST" class="login_container">
+    <div class="login_frame">
+      <div class="login_top">
+        <span>Sign In</span>
+        <div>
+          Back to Home page: <a href="/resto" style="color: #6440fb">Home</a>
+        </div>
+        <p>
+          Not a member ?
+          <a href="/resto/sign-up" style="color: #6440fb">Sign Up</a>
+        </p>
+      </div>
+
+      <div class="login_input_frame">
+        <div class="login_input_container">
+          <label>User name (ID)</label>
+          <input
+            type="text"
+            name="mb_nick"
+            placeholder="User name"
+            value=""
+            required
+          />
+        </div>
+        <div class="login_input_container">
+          <label>Password</label>
+          <input
+            type="password"
+            name="mb_password"
+            placeholder="Password"
+            value=""
+            required
+          />
+        </div>
+      </div>
+
+      <button class="login_btn btn" name="login" type="submit">Login</button>
+    </div>
+  </form>
+</body>
+<%- include('includes/footer') %>
