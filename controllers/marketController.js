@@ -3,6 +3,9 @@ const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 const Market = require("../models/Market");
+const s3Uploadv2 = require('../s3Service').s3Uploadv2
+const fs = require("fs");
+const path = require("path");
 
 let marketController = module.exports;
 
@@ -75,19 +78,28 @@ marketController.signupProcess = async (req, res) => {
     console.log("POST: cont/signupProcess");
     assert(req.file, Definer.general_err3);
 
+
     let new_member = req.body;
     new_member.mb_type = "MARKET";
+
     // yuklangan image ->
     new_member.mb_image = req.file.path;
-
     const member = new Member(),
+
       // signupData(data) -> ga req.bodyni yuboryabmiz
       result = await member.signupData(new_member);
+    
+    let s3URL = await s3Uploadv2(new_member.mb_image);
+    console.log(s3URL);
+
     assert(req.file, Definer.general_err1);
 
     // resquest sessionni ichiga SET qilyabmiz
     req.session.member = result;
-    res.redirect("/resto/products/menu"); // boshqa pagega yuborish
+    // req.session.save(function () { 
+      res.redirect("/resto/products/menu"); // boshqa pagega yuborish
+    // })
+ 
   } catch (err) {
     console.log(`ERROR: cont/signupProcess ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -195,5 +207,23 @@ marketController.updateMarketByAdmin = async (req, res) => {
   } catch (err) {
     console.log(`ERROR: cont/updateMarketByAdmin, ${err.message}`);
     res.json({ state: "fail", message: err.message });
+  }
+};
+marketController.deleteAllImages = async (req, res) => {
+  try {
+    console.log("GET cont/deleteAllImagesFromServer");
+
+    const directoryPath = path.join(__dirname, "../uploads");
+
+    const files = await fs.promises.readdir(directoryPath);
+    for (const file of files) {
+      const filePath = path.join(directoryPath, file);
+      await fs.promises.unlink(filePath);
+    }
+
+    res.send("All images deleted successfully");
+  } catch (err) {
+    console.error(`ERROR: cont/deleteAllImagesFromServer, ${err.message}`);
+    res.status(500).json({ state: "fail", message: err.message });
   }
 };

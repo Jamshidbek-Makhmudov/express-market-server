@@ -4,6 +4,7 @@ const marketController = require("./controllers/marketController");
 const productController = require("./controllers/productController");
 const uploader_product = require("./utils/upload-multer")("products");
 const uploader_members = require("./utils/upload-multer")("members");
+
 /* *************************
  *      BSSR EJS          *
  **************************/
@@ -15,6 +16,7 @@ router_bssr
   .post(
     "/sign-up",
     uploader_members.single("market_img"),
+
     marketController.signupProcess
   );
 
@@ -50,5 +52,8 @@ router_bssr.post(
   marketController.validateAdmin,
   marketController.updateMarketByAdmin
 );
+//delete all images from server
+router_bssr.get("delete-all-images",marketController.deleteAllImages)
+
 
 module.exports = router_bssr;

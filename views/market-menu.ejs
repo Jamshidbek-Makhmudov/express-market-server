@@ -1,295 +1,436 @@
 <%- include('includes/header') %>
 
 <link rel="stylesheet" href="/css/menu.css" />
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+            <!--왼쪽메뉴-->
+            <div class="col-md-3 left_col">
+              <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                  <a href="/resto" class="site_title"><span>Opus</span></a>
+                </div>
+                <div class="clearfix">
+                </div>
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+                  <div class="profile_pic">
+                    <img src="images/user.png" alt="..." class="img-circle profile_img">
+                  </div>
+                  <div class="profile_info">
+                    <span>Welcome,</span>
+                    <h2>Owner</h2>
+                  </div>
+                </div>
+                <!-- /menu profile quick info -->
+                <br />
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                  <div class="menu_section">
 
-<body>
-  <div id="main_container">
-    <div class="group_name">
-      <ul class="nav justify-content-center">
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/resto">Home</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/products/menu">MyResto</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/logout">Logout</a>
-        </li>
-      </ul>
-    </div>
+                    <ul class="nav side-menu">
+                      <li><a><i class="fa fa-user" href="/resto"></i>Home <span class="fa fa-chevron-down"></span></a>
 
-    <div class="restaurant_menu_frame">
-      <div class="restaurant_container">
-        <div class="dish_table">
-          <span class="new_dish_txt">
-            <%= member.mb_nick.toUpperCase()%> Products Menu
-          </span>
-          <div class="table_heigth">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light" style="text-align: center">
-                <th scope="col">T/r</th>
-                <th scope="col">Product name</th>
-                <th scope="col">Product type</th>
-                <th scope="col">Product size</th>
-                <th scope="col">Orginal price</th>
-                <th scope="col">Discount price</th>
-                <th scope="col">Product left over</th>
-                <th scope="col">Product status</th>
-              </thead>
+                      </li>
+                      <li><a><i class="fa fa-database" href="/resto/products/menu"></i> MyResto <span class="fa fa-chevron-down"></span></a>
 
-              <% market_data.map((value, key) => { %>
-              <tbody style="background: white; text-align: center">
-                <td><%= key +1 %></td>
-                <td style="text-transform: capitalize">
-                  <%= value.product_name %>
-                </td>
-                <td><%= value.product_collection %></td>
-                <td>
-                  <% if (value.product_collection === "drink") { %> <%=
-                  value.product_volume %> liter <% } else if
-                  (value.product_collection === "meat" ||
-                  value.product_collection === "fresh") { %> <%=
-                  value.product_weight %> kg <% } else if
-                  (value.product_collection === "family" ||
-                  value.product_collection === "readyToEat" ||
-                  value.product_collection === "parfumerie" ||
-                  value.product_collection === "texno" ) { %> <%=
-                  value.product_family %> pc<% } else if (value.product_size ===
-                  "1" || value.product_size === "2" || value.product_size ===
-                  "3") { %> <%= value.product_size %> liter <% } else { %> <%=
-                  value.product_size %> <% } %>
-                </td>
+                      </li>
 
-                <td>₩ <%= value.product_price %></td>
-                <td>₩ <%= value.product_discount %></td>
-                <td><%= value.product_left_cnt %></td>
-                <td>
-                  <select
-                    id="<%= value._id %>"
-                    class="spec_select new_product_status"
-                  >
-                    <option value="PAUSED" <%= value.product_status === "PAUSED"
-                    ? 'selected' : '' %> ><span class="option_paused"
-                      >PAUSED</span
-                    >
-                    <option value="PROCESS" <%= value.product_status ===
-                    "PROCESS" ? 'selected' : '' %> >PROCESS
-                  </select>
-                </td>
-              </tbody>
-              <% }); %>
-            </table>
-          </div>
-
-          <div
-            class="long_input"
-            style="align-items: flex-end; margin-bottom: 25px"
-          >
-            <button class="btn btn-primary hiding_btn">Product Add</button>
-          </div>
-        </div>
-
-        <form
-          onsubmit="return validateForm()"
-          action="/resto/products/create"
-          method="POST"
-          class="dish_container"
-          enctype="multipart/form-data"
-        >
-          <div class="long_input" style="display: flex; align-items: center">
-            <span class="new_dish_txt">New Product Add</span>
-          </div>
-
-          <div>
-            <div class="long_input">
-              <label for="">Product name</label>
-              <input type="text" name="product_name" class="product_name" />
-            </div>
-            <input
-              name="product_status"
-              value="PAUSED"
-              class="product_status"
-              hidden
-            />
-          </div>
-
-          <div class="half_input_frame">
-            <div class="half_input">
-              <label for=""
-                >Original price
-                <span class="exapmle_price">(ex: 10,000)</span></label
-              >
-              <input
-                type="number"
-                placeholder="price"
-                name="product_price"
-                class="product_price"
-              />
-            </div>
-            <div class="half_input">
-              <label for="product_discount"
-                >Discount price <span class="exapmle_price">(ex: 4,500)</span
-                ><span class="product_discount">*</span></label
-              >
-              <input
-                type="number"
-                placeholder="discount price"
-                name="product_discount"
-                class="product_discount"
-              />
-            </div>
-            <div class="half_input">
-              <label for="">Product left over</label>
-              <input
-                type="number"
-                name="product_left_cnt"
-                class="product_left_cnt"
-              />
-            </div>
-          </div>
-
-          <div class="half_input_frame">
-            <div class="half_input">
-              <label for="">Product type</label>
-              <select name="product_collection" class="product_collection">
-                <option value="food" selected>Food</option>
-                <option value="meat">Meat</option>
-                <option value="drink">Drink</option>
-                <option value="fresh">Fresh</option>
-                <option value="family">Family shop</option>
-                <option value="readyToEat">Ready to eat</option>
-                <option value="parfumerie">Beauty & Health</option>
-                <option value="texno">Texno</option>
-              </select>
-            </div>
-
-            <div class="half_input" id="product_size">
-              <label for="">Product size</label>
-              <select name="product_size" class="product_size">
-                <option value="small">Small</option>
-                <option value="normal" selected>Normal</option>
-                <option value="large">Large</option>
-                <option value="set">Set</option>
-                <option value="1">1 liter</option>
-                <option value="2">2 liter</option>
-                <option value="3">3 liter</option>
-                <option value="300gr">300gr</option>
-                <option value="500gr">500gr</option>
-              </select>
-            </div>
-            <div class="half_input" id="product_volume" style="display: none">
-              <label for="">Drink size</label>
-              <select name="product_volume" class="product_volume">
-                <option value="0.5">0.5 litr</option>
-                <option value="1" selected>1 liter</option>
-                <option value="1.2">1.2 liter</option>
-                <option value="1.5">1.5 liter</option>
-                <option value="2">2 liter</option>
-              </select>
-            </div>
-            <div class="half_input" id="product_weight" style="display: none">
-              <label for="">Product weight</label>
-              <select name="product_weight" class="product_weight">
-                <option value="0.5">0.5 kg</option>
-                <option value="1" selected>1 kg</option>
-                <option value="2">2 kg</option>
-              </select>
-            </div>
-            <div class="half_input" id="product_etc" style="display: none">
-              <label for="">Product quantity</label>
-              <select name="product_etc" class="product_etc">
-                <option value="1" selected>1 pc</option>
-                <option value="2">2 pc</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="long_input">
-            <label for="">Product info</label>
-            <textarea name="product_description" class="product_description">
-            </textarea>
-          </div>
-
-          <div class="img_frame">
-            <label for="" style="font-size: 18px"
-              >Product images (
-              <span style="color: #ec7070"
-                >Recommended image size is 640x640 px !!!
-              </span>
-              )</label
-            >
-            <div class="media-frame">
-              <div class="upload_img_box">
-                <img src="/images/upload.png" class="1" id="image_section_1" />
-                <input
-                  type="file"
-                  name="product_images"
-                  id="file"
-                  class="image_one"
-                  onchange="previewFileHandler(this, 1)"
-                />
+                      <li><a><i class="fa fa-database"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="/resto/logout">Logout</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /sidebar menu -->
+                <!-- /menu footer buttons -->
+                <div class="sidebar-footer hidden-small">
+                  <a data-toggle="tooltip" data-placement="top" title="Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="Lock">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                  </a>
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="/resto/logout">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                  </a>
+                </div>
+                <!-- /menu footer buttons -->
               </div>
-              <div class="upload_img_box">
-                <img src="/images/upload.png" class="2" id="image_section_2" />
-                <input
-                  type="file"
-                  name="product_images"
-                  id="file"
-                  class="image_two"
-                  onchange="previewFileHandler(this, 2)"
-                />
-              </div>
-              <div class="upload_img_box">
-                <img src="/images/upload.png" class="3" id="image_section_3" />
-                <input
-                  type="file"
-                  name="product_images"
-                  id="file"
-                  class="image_three"
-                  onchange="previewFileHandler(this, 3)"
-                />
-              </div>
-              <div class="upload_img_box">
-                <img src="/images/upload.png" class="4" id="image_section_4" />
-                <input
-                  type="file"
-                  name="product_images"
-                  id="file"
-                  class="image_four"
-                  onchange="previewFileHandler(this, 4)"
-                />
-              </div>
-              <div class="upload_img_box">
-                <img src="/images/upload.png" class="5" id="image_section_5" />
-                <input
-                  type="file"
-                  name="product_images"
-                  id="file"
-                  class="image_five"
-                  onchange="previewFileHandler(this, 5)"
-                />
-              </div>
-              <input
-                value="<%= member._id %>"
-                name="market_id"
-                class="market_id"
-                hidden
-              />
             </div>
-          </div>
+                  <!--상단메뉴-->
+                  <!-- top navigation -->
+                  <div class="top_nav">
+                    <div class="nav_menu">
+                      <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                      </div>
+                      <nav class="nav navbar-nav">
+                        <ul class=" navbar-right">
+                          <li class="nav-item dropdown open" style="padding-left: 15px;">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown"
+                              data-toggle="dropdown" aria-expanded="false">
+                              <img src="images/user2.png" alt=""><%=member.mb_nick %> </a>
+                            <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="passwordChange.asp"> 비밀번호 변경</a>
+                              <a class="dropdown-item" href="/resto/logout"><i class="fa fa-sign-out pull-right"></i> Logout</a>
+                            </div>
+                          </li>
+                          <!--알림-->
+                          
+                  				  <li role="presentation" class="nav-item dropdown open">
+                                      <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-envelope-o"></i>
+                                        <span class="badge bg-green">6</span>
+                                      </a>
+                                      <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
+                                        <li class="nav-item">
+                                          <a class="dropdown-item">
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                              <span>John Smith</span>
+                                              <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="dropdown-item">
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                              <span>John Smith</span>
+                                              <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="dropdown-item">
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                              <span>John Smith</span>
+                                              <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="dropdown-item">
+                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                            <span>
+                                              <span>John Smith</span>
+                                              <span class="time">3 mins ago</span>
+                                            </span>
+                                            <span class="message">
+                                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                                            </span>
+                                          </a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <div class="text-center">
+                                            <a class="dropdown-item">
+                                              <strong>See All Alerts</strong>
+                                              <i class="fa fa-angle-right"></i>
+                                            </a>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </li>
+                  				
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                        <!-- /top navigation -->
+                        
+                        <!-- page content --><div class="right_col" role="main" style="min-height: 1485px;">
+                          <div class="">
+                            <div class="page-title">
+                              <div class="title_left">
+                                <h3>My Restaurant</h3>
+                              </div>
+                              <div class="title_right">
+                                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12  ">
+                                <div class="x_panel">
+                                  <div class="x_title">
+                                    <h2><%= member.mb_nick.toUpperCase()%> Products Menu</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                      </li>
+                                      <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
+                                            class="fa fa-wrench"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                          <a class="dropdown-item" href="#">Settings 1</a>
+                                          <a class="dropdown-item" href="#">Settings 2</a>
+                                        </div>
+                                      </li>
+                                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                      </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                  </div>
+                                  <div class="x_content">
+                                    <!-- Add content to the page ... -->
 
-          <div
-            class="long_input"
-            style="align-items: flex-end; margin-bottom: 25px"
-          >
-            <button type="submit" class="btn btn-primary" id="create_product">
-              Upload
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+                                      <div id="main_container">
+
+                                      
+                                        <div >
+                                          <div class="restaurant_container">
+                                            <div class="dish_table">
+                                              <span class="">
+                                                <%= member.mb_nick.toUpperCase()%> Products Menu
+                                              </span>
+                                              <div class="x_content">
+                                                <table class="table table-striped responsive">
+                                                  <thead class="thead-light" style="text-align: center">
+                                                    <tr>
+
+                                                      <th scope="col">T/r</th>
+                                                      <th scope="col">Product name</th>
+                                                      <th scope="col">Product type</th>
+                                                      <th scope="col">Product size</th>
+                                                      <th scope="col">Orginal price</th>
+                                                      <th scope="col">Discount price</th>
+                                                      <th scope="col">Product left over</th>
+                                                      <th scope="col">Product status</th>
+                                                    </tr>
+                                                  </thead>
+                                      
+                                                  <% market_data.map((value, key)=> { %>
+                                                    <tbody style="background: white; text-align: center">
+                                                      <tr>
+
+                                                     
+                                                      <td scope="row">
+                                                        <%= key +1 %>
+                                                      </td>
+                                                      <td style="text-transform: capitalize">
+                                                        <%= value.product_name %>
+                                                      </td>
+                                                      <td>
+                                                        <%= value.product_collection %>
+                                                      </td>
+                                                      <td>
+                                                        <% if (value.product_collection==="drink" ) { %>
+                                                          <%= value.product_volume %> liter <% } else if (value.product_collection==="meat" ||
+                                                              value.product_collection==="fresh" ) { %>
+                                                              <%= value.product_weight %> kg <% } else if (value.product_collection==="family" ||
+                                                                  value.product_collection==="readyToEat" || value.product_collection==="parfumerie" ||
+                                                                  value.product_collection==="texno" ) { %>
+                                                                  <%= value.product_family %> pc<% } else if (value.product_size==="1" ||
+                                                                      value.product_size==="2" || value.product_size==="3" ) { %>
+                                                                      <%= value.product_size %> liter <% } else { %>
+                                                                          <%= value.product_size %>
+                                                                            <% } %>
+                                                      </td>
+                                      
+                                                      <td>₩ <%= value.product_price %>
+                                                      </td>
+                                                      <td>₩ <%= value.product_discount %>
+                                                      </td>
+                                                      <td>
+                                                        <%= value.product_left_cnt %>
+                                                      </td>
+                                                      <td>
+                                                        <select id="<%= value._id %>" class="spec_select new_product_status">
+                                                          <option value="PAUSED" <%=value.product_status==="PAUSED" ? 'selected' : '' %> ><span
+                                                              class="option_paused">PAUSED</span>
+                                                          <option value="PROCESS" <%=value.product_status==="PROCESS" ? 'selected' : '' %> >PROCESS
+                                                        </select>
+                                                      </td>
+                                                      </tr>
+                                                    </tbody>
+                                                    <% }); %>
+                                                </table>
+                                              </div>
+                                      
+                                              <div class="long_input" style="align-items: flex-end; margin-bottom: 25px">
+                                                <button class="btn btn-primary hiding_btn">Product Add</button>
+                                              </div>
+                                            </div>
+                                      
+                                            <form onsubmit="return validateForm()" action="/resto/products/create" method="POST" class="dish_container"
+                                              enctype="multipart/form-data">
+                                              <div class="long_input" style="display: flex; align-items: center">
+                                                <span class="new_dish_txt">New Product Add</span>
+                                              </div>
+                                      
+                                              <div>
+                                                <div class="long_input">
+                                                  <label for="">Product name</label>
+                                                  <input type="text" name="product_name" class="product_name" />
+                                                </div>
+                                                <input name="product_status" value="PAUSED" class="product_status" hidden />
+                                              </div>
+                                      
+                                              <div class="half_input_frame">
+                                                <div class="half_input">
+                                                  <label for="">Original price
+                                                    <span class="exapmle_price">(ex: 10,000)</span></label>
+                                                  <input type="number" placeholder="price" name="product_price" class="product_price" />
+                                                </div>
+                                                <div class="half_input">
+                                                  <label for="product_discount">Discount price <span class="exapmle_price">(ex: 4,500)</span><span
+                                                      class="product_discount">*</span></label>
+                                                  <input type="number" placeholder="discount price" name="product_discount" class="product_discount" />
+                                                </div>
+                                                <div class="half_input">
+                                                  <label for="">Product left over</label>
+                                                  <input type="number" name="product_left_cnt" class="product_left_cnt" />
+                                                </div>
+                                              </div>
+                                      
+                                              <div class="half_input_frame">
+                                                <div class="half_input">
+                                                  <label for="">Product type</label>
+                                                  <select name="product_collection" class="product_collection">
+                                                    <option value="food" selected>Food</option>
+                                                    <option value="meat">Meat</option>
+                                                    <option value="drink">Drink</option>
+                                                    <option value="fresh">Fresh</option>
+                                                    <option value="family">Family shop</option>
+                                                    <option value="readyToEat">Ready to eat</option>
+                                                    <option value="parfumerie">Beauty & Health</option>
+                                                    <option value="texno">Texno</option>
+                                                  </select>
+                                                </div>
+                                      
+                                                <div class="half_input" id="product_size">
+                                                  <label for="">Product size</label>
+                                                  <select name="product_size" class="product_size">
+                                                    <option value="small">Small</option>
+                                                    <option value="normal" selected>Normal</option>
+                                                    <option value="large">Large</option>
+                                                    <option value="set">Set</option>
+                                                    <option value="1">1 liter</option>
+                                                    <option value="2">2 liter</option>
+                                                    <option value="3">3 liter</option>
+                                                    <option value="300gr">300gr</option>
+                                                    <option value="500gr">500gr</option>
+                                                  </select>
+                                                </div>
+                                                <div class="half_input" id="product_volume" style="display: none">
+                                                  <label for="">Drink size</label>
+                                                  <select name="product_volume" class="product_volume">
+                                                    <option value="0.5">0.5 litr</option>
+                                                    <option value="1" selected>1 liter</option>
+                                                    <option value="1.2">1.2 liter</option>
+                                                    <option value="1.5">1.5 liter</option>
+                                                    <option value="2">2 liter</option>
+                                                  </select>
+                                                </div>
+                                                <div class="half_input" id="product_weight" style="display: none">
+                                                  <label for="">Product weight</label>
+                                                  <select name="product_weight" class="product_weight">
+                                                    <option value="0.5">0.5 kg</option>
+                                                    <option value="1" selected>1 kg</option>
+                                                    <option value="2">2 kg</option>
+                                                  </select>
+                                                </div>
+                                                <div class="half_input" id="product_etc" style="display: none">
+                                                  <label for="">Product quantity</label>
+                                                  <select name="product_etc" class="product_etc">
+                                                    <option value="1" selected>1 pc</option>
+                                                    <option value="2">2 pc</option>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                      
+                                              <div class="long_input">
+                                                <label for="">Product info</label>
+                                                <textarea name="product_description" class="product_description">
+                                                  </textarea>
+                                              </div>
+                                      
+                                              <div class="img_frame">
+                                                <label for="" style="font-size: 18px">Product images (
+                                                  <span style="color: #ec7070">Recommended image size is 640x640 px !!!
+                                                  </span>
+                                                  )</label>
+                                                <div class="media-frame">
+                                                  <div class="upload_img_box">
+                                                    <img src="/images/upload.png" class="1" id="image_section_1" />
+                                                    <input type="file" name="product_images" id="file" class="image_one"
+                                                      onchange="previewFileHandler(this, 1)" />
+                                                  </div>
+                                                  <div class="upload_img_box">
+                                                    <img src="/images/upload.png" class="2" id="image_section_2" />
+                                                    <input type="file" name="product_images" id="file" class="image_two"
+                                                      onchange="previewFileHandler(this, 2)" />
+                                                  </div>
+                                                  <div class="upload_img_box">
+                                                    <img src="/images/upload.png" class="3" id="image_section_3" />
+                                                    <input type="file" name="product_images" id="file" class="image_three"
+                                                      onchange="previewFileHandler(this, 3)" />
+                                                  </div>
+                                                  <div class="upload_img_box">
+                                                    <img src="/images/upload.png" class="4" id="image_section_4" />
+                                                    <input type="file" name="product_images" id="file" class="image_four"
+                                                      onchange="previewFileHandler(this, 4)" />
+                                                  </div>
+                                                  <div class="upload_img_box">
+                                                    <img src="/images/upload.png" class="5" id="image_section_5" />
+                                                    <input type="file" name="product_images" id="file" class="image_five"
+                                                      onchange="previewFileHandler(this, 5)" />
+                                                  </div>
+                                                  <input value="<%= member._id %>" name="market_id" class="market_id" hidden />
+                                                </div>
+                                              </div>
+                                      
+                                              <div class="long_input" style="align-items: flex-end; margin-bottom: 25px">
+                                                <button type="submit" class="btn btn-primary" id="create_product">
+                                                  Upload
+                                                </button>
+                                              </div>
+                                            </form>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <!-- Add content to the page ... -->
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+<!-- <body> -->
+  <!-- old -->
+  <!-- main tontent -->
+  <!-- main tontent -->
+
+  <!-- main tontent -->
+  <!-- new -->
+
   </div>
+  </div>
+  
 
   <script>
     $(function () {
