@@ -10,7 +10,7 @@
     "start:prod": "node server.js && NODE_ENV=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Sarvar (Steve)",
+  "author": "Jamshid (James)",
   "license": "ISC",
   "dependencies": {
     "assert": "^2.0.0",

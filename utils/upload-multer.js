@@ -21,7 +21,7 @@ function getTargetImageStorage(address) {
   });
 }
 
-// natija: multer object hosil qilish uchun 
+//natija: multer object hosil qilish uchun 
 const makeUploader = (address) => {
    const storage = getTargetImageStorage(address);
   // const storage = multer.memoryStorage(address);

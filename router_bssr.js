@@ -2,8 +2,10 @@ const express = require("express");
 const router_bssr = express.Router();
 const marketController = require("./controllers/marketController");
 const productController = require("./controllers/productController");
-const uploader_product = require("./utils/upload-multer")("products");
+ const uploader_product = require("./utils/upload-multer")("products");
 const uploader_members = require("./utils/upload-multer")("members");
+//new
+
 
 /* *************************
  *      BSSR EJS          *
@@ -16,7 +18,6 @@ router_bssr
   .post(
     "/sign-up",
     uploader_members.single("market_img"),
-
     marketController.signupProcess
   );
 
@@ -32,7 +33,7 @@ router_bssr.post(
   "/products/create",
   // Serverga image yuklash
   marketController.validateAuthMarket,
-  uploader_product.array("product_images", 5),
+   uploader_product.array("product_images", 5),
   productController.addNewProduct
 );
 router_bssr.post(
@@ -53,7 +54,9 @@ router_bssr.post(
   marketController.updateMarketByAdmin
 );
 //delete all images from server
-router_bssr.get("delete-all-images",marketController.deleteAllImages)
+router_bssr.get("/delete-all-images", marketController.deleteAllImages)
+//add products
+router_bssr.get("/products/add-produts",marketController.addProducts)
 
 
 module.exports = router_bssr;

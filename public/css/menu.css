@@ -58,7 +58,7 @@
   width: 50%;
   margin: 20px auto 0 auto;
   height: auto;
-  display: none;
+  /* display: none; */
   flex-direction: column;
   align-items: center;
 }
@@ -78,7 +78,7 @@
   font-weight: 400;
   font-size: 30px;
   line-height: 25px;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .option_paused {
@@ -100,7 +100,7 @@
   font-weight: 400;
   font-size: 30px;
   line-height: 25px;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .long_input input {
@@ -161,7 +161,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 25px;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .half_input input {

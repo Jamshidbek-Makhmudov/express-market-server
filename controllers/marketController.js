@@ -3,9 +3,9 @@ const Definer = require("../lib/mistake");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 const Market = require("../models/Market");
-const s3Uploadv2 = require('../s3Service').s3Uploadv2
-const fs = require("fs");
-const path = require("path");
+// const s3Uploadv2 = require('../s3Service').s3Uploadv2
+// const fs = require("fs");
+// const path = require("path");
 
 let marketController = module.exports;
 
@@ -78,19 +78,19 @@ marketController.signupProcess = async (req, res) => {
     console.log("POST: cont/signupProcess");
     assert(req.file, Definer.general_err3);
 
-
     let new_member = req.body;
     new_member.mb_type = "MARKET";
 
     // yuklangan image ->
+
     new_member.mb_image = req.file.path;
     const member = new Member(),
 
       // signupData(data) -> ga req.bodyni yuboryabmiz
-      result = await member.signupData(new_member);
+    result = await member.signupData(new_member);
     
-    let s3URL = await s3Uploadv2(new_member.mb_image);
-    console.log(s3URL);
+    // let s3URL = await s3Uploadv2(req.file);
+    // console.log(s3URL);
 
     assert(req.file, Definer.general_err1);
 
@@ -209,6 +209,7 @@ marketController.updateMarketByAdmin = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+//delete images
 marketController.deleteAllImages = async (req, res) => {
   try {
     console.log("GET cont/deleteAllImagesFromServer");
@@ -225,5 +226,19 @@ marketController.deleteAllImages = async (req, res) => {
   } catch (err) {
     console.error(`ERROR: cont/deleteAllImagesFromServer, ${err.message}`);
     res.status(500).json({ state: "fail", message: err.message });
+  }
+};
+
+//add-products
+marketController.addProducts = async (req, res) => {
+  try {
+    console.log("GET: cont/addProducts");
+    const product = new Product();
+    const data = await product.getAllProductsDataResto(res.locals.member);
+
+    res.render("add-products", { market_data: data });
+  } catch (err) {
+    console.log(`ERROR: cont/addProducts ${err.message}`);
+    res.redirect("/resto");
   }
 };

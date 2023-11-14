@@ -8,11 +8,14 @@ exports.s3Uploadv2 = async (file) => {
 	const param = {
 		Bucket: process.env.AWS_BUCKET_NAME,
 		Key: file,
-		// Key: `uploads/members${uuid.v4()}-${file.originalname}`,
+		//  Key: `uploads/${uuid.v4()}-${file.originalname}`,
 		Body: file
 	};
 	return await s3.upload(param).promise()
 }
+
+
+
 
 
 

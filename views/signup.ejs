@@ -11,6 +11,7 @@
       class="login_container"
       method="POST"
       enctype="multipart/form-data"
+      id="signup-form"
     >
       <div class="signup_frame">
         <div class="login_top">
@@ -139,12 +140,15 @@
       });
     });
 
+
+
+
     function validateSignUpForm() {
       const mb_nick = $(".mb_nick").val();
       const mb_phone = $(".mb_phone").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
-      // inputga file qanday qilib tekshiramiz ->
+
       const market_img = $(".market_img").get(0).files[0] ?? null;
 
       if (
